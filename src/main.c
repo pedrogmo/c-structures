@@ -3,8 +3,8 @@
 #include <stdlib.h>
 #include "bstree.h"
 
-static void print(void*);
-static void* make_string(char*);
+static void print(const void*);
+static void* make_string(const char*);
 
 int main(int argc, char **argv)
 {
@@ -14,19 +14,19 @@ int main(int argc, char **argv)
     tree = bstree_add(tree, 5, make_string("B"));
     tree = bstree_add(tree, 10, make_string("C"));
 
-    bstree_postorder(tree, &print);
+    bstree_inorder(tree, &print);
 
     bstree_delete(tree);
 
     return EXIT_SUCCESS;
 }
 
-void print(void *value)
+void print(const void *value)
 {
     printf("%s\n", (char*) value);
 }
 
-void* make_string(char *cstr)
+void* make_string(const char *cstr)
 {
     char *dynstr = (char*) malloc(strlen(cstr)+1);
     strcpy(dynstr, cstr);

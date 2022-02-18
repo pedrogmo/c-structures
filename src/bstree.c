@@ -2,7 +2,7 @@
 #include "bstree.h"
 #define MAX(X, Y) ((X) > (Y) ? (X) : (Y))
 
-static u32 height(bstree *tree)
+static u32 height(const bstree *tree)
 {
     if (!tree)
     {
@@ -11,7 +11,7 @@ static u32 height(bstree *tree)
     return tree->height;
 }
 
-static s32 balance_factor(bstree *tree)
+static s32 balance_factor(const bstree *tree)
 {
     if (!tree)
     {
@@ -59,12 +59,12 @@ bstree* bstree_make()
     return tree;
 }    
 
-bool bstree_empty(bstree *tree)
+bool bstree_empty(const bstree *tree)
 {
     return !tree || !tree->value;
 }
 
-u32 bstree_count(bstree *tree)
+u32 bstree_count(const bstree *tree)
 {
     if (!tree)
     {
@@ -126,7 +126,7 @@ bstree* bstree_add(bstree *tree, s32 key, void *value)
     return tree;
 }
 
-void* bstree_value(bstree *tree, s32 key)
+void* bstree_value(const bstree *tree, s32 key)
 {
     if (bstree_empty(tree))
     {
@@ -143,7 +143,7 @@ void* bstree_value(bstree *tree, s32 key)
     return bstree_value(tree->right, key);
 }
 
-void bstree_preorder(bstree *tree, void(*f)(void*))
+void bstree_preorder(bstree *tree, void(*f)(const void*))
 {
     if (bstree_empty(tree))
     {
@@ -155,7 +155,7 @@ void bstree_preorder(bstree *tree, void(*f)(void*))
     bstree_preorder(tree->right, f);
 }
 
-void bstree_inorder(bstree *tree, void(*f)(void*))
+void bstree_inorder(bstree *tree, void(*f)(const void*))
 {
     if (bstree_empty(tree))
     {
@@ -167,7 +167,7 @@ void bstree_inorder(bstree *tree, void(*f)(void*))
     bstree_inorder(tree->right, f);
 }
 
-void bstree_postorder(bstree *tree, void(*f)(void*))
+void bstree_postorder(bstree *tree, void(*f)(const void*))
 {
     if (bstree_empty(tree))
     {
