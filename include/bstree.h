@@ -1,3 +1,6 @@
+#ifndef BSTREE_H_INCLUDED
+#define BSTREE_H_INCLUDED
+
 #include "types.h"
 
 typedef struct _treenode
@@ -18,3 +21,5 @@ extern void bstree_preorder(bstree*, void(*)(const void*));
 extern void bstree_inorder(bstree*, void(*)(const void*));
 extern void bstree_postorder(bstree*, void(*)(const void*));
 extern void bstree_delete(bstree*);
+
+#endif /*BSTREE_H_INCLUDED*/
