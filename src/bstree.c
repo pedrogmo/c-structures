@@ -20,7 +20,7 @@ static s32 balance_factor(const bstree *tree)
     return height(tree->left) - height(tree->right);    
 }
 
-static bstree* right_rotate(bstree *tree)
+static bstree *right_rotate(bstree *tree)
 {
     bstree *a = tree->left;
     bstree *b = a->right;
@@ -34,7 +34,7 @@ static bstree* right_rotate(bstree *tree)
     return a;
 }
 
-static bstree* left_rotate(bstree *tree)
+static bstree *left_rotate(bstree *tree)
 {
     bstree *a = tree->right;
     bstree *b = a->left;
@@ -48,9 +48,25 @@ static bstree* left_rotate(bstree *tree)
     return a;
 }
 
-bstree* bstree_make()
+static void delete_branch(bstree *tree)
 {
-    bstree *tree = (bstree*) malloc(sizeof(bstree));
+    if (!tree)
+    {
+        return;
+    }
+
+    delete_branch(tree->left);
+    delete_branch(tree->right);
+
+    if (tree->value)
+        free(tree->value);
+
+    free(tree);
+}
+
+bstree *bstree_make()
+{
+    bstree *tree = (bstree *) malloc(sizeof(bstree));
     tree->key = 0;
     tree->value = NULL;
     tree->left = NULL;
@@ -73,11 +89,11 @@ u32 bstree_count(const bstree *tree)
     return 1u + bstree_count(tree->left) + bstree_count(tree->right);
 }
 
-bstree* bstree_add(bstree *tree, s32 key, void *value)
+bstree *bstree_add(bstree *tree, s32 key, void *value)
 {
     if (bstree_empty(tree))    
     {
-        tree = (bstree*) malloc(sizeof(bstree));
+        tree = (bstree *) malloc(sizeof(bstree));
         tree->key = key;
         tree->value = value;
         tree->left = NULL;
@@ -126,7 +142,7 @@ bstree* bstree_add(bstree *tree, s32 key, void *value)
     return tree;
 }
 
-void* bstree_value(const bstree *tree, s32 key)
+void *bstree_value(const bstree *tree, s32 key)
 {
     if (bstree_empty(tree))
     {
@@ -143,7 +159,7 @@ void* bstree_value(const bstree *tree, s32 key)
     return bstree_value(tree->right, key);
 }
 
-void bstree_preorder(bstree *tree, void(*f)(const void*))
+void bstree_preorder(bstree *tree, void(*f)(void*))
 {
     if (bstree_empty(tree))
     {
@@ -155,7 +171,7 @@ void bstree_preorder(bstree *tree, void(*f)(const void*))
     bstree_preorder(tree->right, f);
 }
 
-void bstree_inorder(bstree *tree, void(*f)(const void*))
+void bstree_inorder(bstree *tree, void(*f)(void*))
 {
     if (bstree_empty(tree))
     {
@@ -167,7 +183,7 @@ void bstree_inorder(bstree *tree, void(*f)(const void*))
     bstree_inorder(tree->right, f);
 }
 
-void bstree_postorder(bstree *tree, void(*f)(const void*))
+void bstree_postorder(bstree *tree, void(*f)(void*))
 {
     if (bstree_empty(tree))
     {
@@ -179,15 +195,22 @@ void bstree_postorder(bstree *tree, void(*f)(const void*))
     (*f)(tree->value);
 }
 
+void bstree_clear(bstree *tree)
+{
+    delete_branch(tree->left);
+    delete_branch(tree->right);
+
+    if (tree->value)
+        free(tree->value);
+
+    tree->key = 0;
+    tree->value = NULL;
+    tree->left = NULL;
+    tree->right = NULL;
+    tree->height = 0u;
+}
+
 void bstree_delete(bstree *tree)
 {
-    if (!tree)
-    {
-        return;
-    }
-
-    bstree_delete(tree->left);
-    bstree_delete(tree->right);
-    free(tree->value);
-    free(tree);
+    delete_branch(tree);
 }
