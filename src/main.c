@@ -2,33 +2,51 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "bstree.h"
+#include "dllist.h"
 
-static void print(void*);
-static void* make_string(const char*);
+static void print(void *);
+static void *make_string(const char*);
+static void *make_int(int);
 
 int main(int argc, char **argv)
 {
-    bstree *tree = bstree_make();
-    
-    tree = bstree_add(tree, 1, make_string("A"));
-    tree = bstree_add(tree, 5, make_string("B"));
-    tree = bstree_add(tree, 10, make_string("C"));
+    dllist *list = dllist_make();
 
-    bstree_postorder(tree, &print);
+    void *data = make_int(-2);
 
-    bstree_delete(tree);
+    dllist_insert(list, make_int(1), 0);
+    dllist_insert(list, make_int(4), 1);
+    dllist_insert(list, make_int(2), 1);
+    dllist_insert(list, data, 1);
+    dllist_insert(list, make_int(3), 3);
 
-    return EXIT_SUCCESS;
+    dllist_traverse(list, &print);
+    putchar('\n');
+
+    dllist_erase(list, 1);
+
+    dllist_traverse(list, &print);
+    putchar('\n');
+
+    dllist_delete(list);
+    return 0;
 }
 
-void print(void *value)
+void print(void *data)
 {
-    printf("%s\n", (char*) value);
+    printf("%i -> ", *((int *)data));
 }
 
-void* make_string(const char *cstr)
+void *make_string(const char *cstr)
 {
-    char *dynstr = (char*) malloc(strlen(cstr)+1);
+    char *dynstr = (char *) malloc(strlen(cstr)+1);
     strcpy(dynstr, cstr);
     return dynstr;
+}
+
+void *make_int(int i)
+{
+    int *ptr = (int *) malloc(sizeof(int));
+    *ptr = i;
+    return ptr;
 }
