@@ -1,22 +1,23 @@
 #ifndef BSTREE_H_INCLUDED
 #define BSTREE_H_INCLUDED
 
-#include "types.h"
+#include <stdbool.h>
+#include <stdint.h>
 
 typedef struct _treenode
 {
-    s32 key;
+    int32_t key;
     void *value;
     struct _treenode *left, *right;
-    u32 height; 
+    size_t height; 
 } bstree;
 
 extern bstree *bstree_make();
 extern bool bstree_empty(const bstree *);
-extern u32 bstree_count(const bstree *);
-extern bstree *bstree_add(bstree *, s32, void *);
-extern bstree *bstree_remove(bstree *, s32);
-extern void *bstree_value(const bstree *, s32);
+extern size_t bstree_count(const bstree *);
+extern bstree *bstree_add(bstree *, int32_t, void *);
+extern bstree *bstree_remove(bstree *, int32_t);
+extern void *bstree_value(const bstree *, int32_t);
 extern void bstree_preorder(bstree *, void(*)(void *));
 extern void bstree_inorder(bstree *, void(*)(void *));
 extern void bstree_postorder(bstree *, void(*)(void *));

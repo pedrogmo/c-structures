@@ -10,25 +10,6 @@ static void *make_int(int);
 
 int main(int argc, char **argv)
 {
-    dllist *list = dllist_make();
-
-    void *data = make_int(-2);
-
-    dllist_insert(list, make_int(1), 0);
-    dllist_insert(list, make_int(4), 1);
-    dllist_insert(list, make_int(2), 1);
-    dllist_insert(list, data, 1);
-    dllist_insert(list, make_int(3), 3);
-
-    dllist_traverse(list, &print);
-    putchar('\n');
-
-    dllist_erase(list, 1);
-
-    dllist_traverse(list, &print);
-    putchar('\n');
-
-    dllist_delete(list);
     return 0;
 }
 

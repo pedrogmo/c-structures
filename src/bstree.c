@@ -2,7 +2,7 @@
 #include "bstree.h"
 #define MAX(X, Y) ((X) > (Y) ? (X) : (Y))
 
-static u32 height(const bstree *tree)
+static size_t height(const bstree *tree)
 {
     if (!tree)
     {
@@ -11,7 +11,7 @@ static u32 height(const bstree *tree)
     return tree->height;
 }
 
-static s32 balance_factor(const bstree *tree)
+static int32_t balance_factor(const bstree *tree)
 {
     if (!tree)
     {
@@ -80,7 +80,7 @@ bool bstree_empty(const bstree *tree)
     return !tree || !tree->value;
 }
 
-u32 bstree_count(const bstree *tree)
+size_t bstree_count(const bstree *tree)
 {
     if (!tree)
     {
@@ -89,7 +89,7 @@ u32 bstree_count(const bstree *tree)
     return 1u + bstree_count(tree->left) + bstree_count(tree->right);
 }
 
-bstree *bstree_add(bstree *tree, s32 key, void *value)
+bstree *bstree_add(bstree *tree, int32_t key, void *value)
 {
     if (bstree_empty(tree))    
     {
@@ -115,7 +115,7 @@ bstree *bstree_add(bstree *tree, s32 key, void *value)
     }
 
     tree->height = 1 + MAX(height(tree->left), height(tree->right));
-    s32 balance = balance_factor(tree);
+    int32_t balance = balance_factor(tree);
 
     if (balance > 1 && key < tree->left->key)
     {
@@ -142,7 +142,7 @@ bstree *bstree_add(bstree *tree, s32 key, void *value)
     return tree;
 }
 
-void *bstree_value(const bstree *tree, s32 key)
+void *bstree_value(const bstree *tree, int32_t key)
 {
     if (bstree_empty(tree))
     {

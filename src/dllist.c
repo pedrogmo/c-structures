@@ -23,9 +23,9 @@ bool dllist_empty(const dllist *list)
 	return list->first == NULL;
 }
 
-u32 dllist_count(const dllist *list)
+size_t dllist_count(const dllist *list)
 {
-	u32 count = 0u;
+	size_t count = 0u;
 	for(dllnode *n = list->first; n; n = n->next)
 		count++;
 	return count;
@@ -55,9 +55,9 @@ void dllist_push_front(dllist *list, void *data)
 	list->first = newnode;
 }
 
-void dllist_insert(dllist *list, void *data, u32 pos)
+void dllist_insert(dllist *list, void *data, size_t pos)
 {
-	dllnode *before = NULL, 
+	dllnode	*before = NULL, 
 			*after = list->first,
 			*newnode = new_node(data, NULL, NULL);
 
@@ -148,7 +148,7 @@ void dllist_remove(dllist *list, const void *data)
 	free(curr);
 }
 
-void dllist_erase(dllist *list, u32 pos)
+void dllist_erase(dllist *list, size_t pos)
 {
 	if (dllist_empty(list))
 		return;
