@@ -10,6 +10,9 @@ static void *make_int(int);
 
 int main(int argc, char **argv)
 {
+    bstree *tree = bstree_make();
+
+    bstree_delete(tree);
     return 0;
 }
 
