@@ -26,7 +26,9 @@ bool dllist_empty(const dllist *list)
 size_t dllist_count(const dllist *list)
 {
 	size_t count = 0u;
-	for(dllnode *n = list->first; n; n = n->next)
+	dllnode *n = list->first;
+	
+	for(; n; n = n->next)
 		count++;
 	return count;
 }
@@ -86,10 +88,10 @@ void dllist_insert(dllist *list, void *data, size_t pos)
 
 void dllist_pop_front(dllist *list)
 {
+	dllnode *removed = list->first;
+
 	if (dllist_empty(list))
 		return;
-
-	dllnode *removed = list->first;
 
 	list->first = list->first->next;
 
@@ -104,10 +106,10 @@ void dllist_pop_front(dllist *list)
 
 void dllist_pop_back(dllist *list)
 {
+	dllnode *removed = list->last;
+
 	if (dllist_empty(list))
 		return;
-
-	dllnode *removed = list->last;
 
 	list->last = list->last->prev;
 
@@ -122,10 +124,10 @@ void dllist_pop_back(dllist *list)
 
 void dllist_remove(dllist *list, const void *data)
 {
+	dllnode *curr = list->first;
+
 	if (dllist_empty(list))
 		return;
-
-	dllnode *curr = list->first;
 
 	while(curr->value != data)
 	{
@@ -150,10 +152,10 @@ void dllist_remove(dllist *list, const void *data)
 
 void dllist_erase(dllist *list, size_t pos)
 {
+	dllnode *curr = list->first;
+	
 	if (dllist_empty(list))
 		return;
-
-	dllnode *curr = list->first;
 
 	for(; pos > 0u; --pos)
 	{
@@ -178,19 +180,22 @@ void dllist_erase(dllist *list, size_t pos)
 
 void dllist_traverse(dllist *list, void(*f)(void*))
 {
-	for(dllnode *n = list->first; n; n = n->next)
+	dllnode *n = list->first;
+	for(; n; n = n->next)
 		(*f)(n->value);
 }
 
 void dllist_reverse(dllist *list, void(*f)(void*))
 {
-	for(dllnode *r = list->last; r; r = r->prev)
+	dllnode *r = list->last;
+	for(; r; r = r->prev)
 		(*f)(r->value);
 }
 
 void dllist_delete(dllist *list)
 {
-	for(dllnode *n = list->first; n; )
+	dllnode *n = list->first;
+	for(; n; )
 	{
 		dllnode *next = n->next;
 
